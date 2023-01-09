@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import './sign-in-form.styles.scss';
 import Button from "../button/button.component";
 import {
@@ -30,8 +31,8 @@ const SignInForm = () => {
         event.preventDefault();
 
         try {
-            const response = await signInAuthUserWithEmailAndPassword(email, password);
-            console.log(response);
+            const { user } = await signInAuthUserWithEmailAndPassword(email, password);
+            
             resetFormFields();
         } catch (error) {
             switch (error.code) {
@@ -49,9 +50,7 @@ const SignInForm = () => {
     };
 
     const signInWithGoogle = async () => {
-        const { user } = await signInWithGooglePopup();
-        await createUserDocumentFromAuth(user);
-        
+        await signInWithGooglePopup();
     };
 
     const handleChange = (event) => {
