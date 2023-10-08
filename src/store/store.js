@@ -6,14 +6,22 @@ import { loggerMiddleware } from '../middleware/logger';
 
 import { rootReducer } from './root-reducer';
 
+import thunk from 'redux-thunk';
 
 
-const middleWares = [process.env.NODE_ENV !== 'production' && loggerMiddleware].filter(Boolean);
+const middleWares = [process.env.NODE_ENV !== 'production' && loggerMiddleware, thunk].filter(Boolean);
+
+const thunkMiddleware = (store) => (next) => (action) => {
+  if (typeof action === 'function') {
+    return action(store.dispatch, store.getState);
+  }
+}
+
 
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: ['user'],
+  whitelist: ['cart'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
