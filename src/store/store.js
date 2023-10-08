@@ -11,11 +11,6 @@ import thunk from 'redux-thunk';
 
 const middleWares = [process.env.NODE_ENV !== 'production' && loggerMiddleware, thunk].filter(Boolean);
 
-const thunkMiddleware = (store) => (next) => (action) => {
-  if (typeof action === 'function') {
-    return action(store.dispatch, store.getState);
-  }
-}
 
 
 const persistConfig = {
